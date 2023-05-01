@@ -4,10 +4,13 @@ import cmath
 import socket
 import json
 
+# Get the local hostname and IP address
 hostname = socket.gethostname()
 UDP_IP = socket.gethostbyname(hostname)
 print("***Local ip:" + str(UDP_IP) + "***")
 UDP_PORT = 80
+
+# Set up a TCP server on port 80 to receive UWB data
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind((UDP_IP, UDP_PORT))
 sock.listen(1) 
@@ -17,7 +20,7 @@ distance_a1_a2 = 3.0
 meter2pixel = 100
 range_offset = 0.9
 
-
+# Set up constants and functions for drawing the turtle graphics interface
 def screen_init(width=1200, height=800, t=turtle):
     t.setup(width, height)
     t.tracer(False)
