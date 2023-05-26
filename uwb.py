@@ -16,6 +16,7 @@ sock.bind((UDP_IP, UDP_PORT))
 sock.listen(1) 
 data, addr = sock.accept()
 
+
 distance_a1_a2 = 3.0
 meter2pixel = 100
 range_offset = 0.9
@@ -26,6 +27,14 @@ def screen_init(width=1200, height=800, t=turtle):
     t.tracer(False)
     t.hideturtle()
     t.speed(0)
+    t.bgcolor("#272727")  # Set background color
+    t.screen.bgcolor("#272727")  # Set background color
+    t.screen._root.attributes("-topmost", True)  # Set the window to be always on top
+    t.screen._root.attributes("-transparentcolor", "white")  # Set white color as transparent
+    t.screen.cv._rootwindow.overrideredirect(True)  # Remove the window border
+
+    draw_ui(t)
+
 
 
 def turtle_init(t=turtle):
@@ -105,16 +114,37 @@ def clean(t=turtle):
 
 
 def draw_ui(t):
-    write_txt(-300, 250, "UWB Positon", "black",  t, f=('Arial', 32, 'normal'))
-    fill_rect(-400, 200, 800, 40, "black", t)
-    write_txt(-50, 205, "WALL", "yellow",  t, f=('Arial', 24, 'normal'))
+    write_txt(-300, 250, "SmartTag  Indoor positioning System", "white", t, f=('Arial', 32, 'normal'))
+
+    # Draw the outer rectangle
+    draw_rect(-400, -200, 800, 400, "white", t)
+
+    # Draw the center line
+    draw_line(0, -200, 0, 200, "white", t)
+
+    # Draw the penalty areas
+    draw_rect(-400, -100, 100, 200, "white", t)
+    draw_rect(300, -100, 100, 200, "white", t)
+
+    # Draw the goal boxes
+    draw_rect(-400, -50, 50, 100, "white", t)
+    draw_rect(350, -50, 50, 100, "white", t)
+
+    # Draw the goals
+    draw_rect(-400, -20, 10, 40, "white", t)
+    draw_rect(390, -20, 10, 40, "white", t)
+
+    # Draw the circle in the middle
+    draw_cycle(0, 0, 90, "white", t)
+
+
 
 
 def draw_uwb_anchor(x, y, txt, range, t):
     r = 20
     fill_cycle(x, y, r, "green", t)
     write_txt(x + r, y, txt + ": " + str(range) + "M",
-              "black",  t, f=('Arial', 16, 'normal'))
+              "white",  t, f=('Arial', 16, 'normal'))
 
 
 def draw_uwb_tag(x, y, txt, t):
@@ -123,7 +153,7 @@ def draw_uwb_tag(x, y, txt, t):
     r = 20
     fill_cycle(pos_x, pos_y, r, "blue", t)
     write_txt(pos_x, pos_y, txt + ": (" + str(x) + "," + str(y) + ")",
-              "black",  t, f=('Arial', 16, 'normal'))
+              "white",  t, f=('Arial', 16, 'normal'))
 
 
 def read_data():
@@ -166,7 +196,6 @@ def uwb_range_offset(uwb_range):
 
 
 def main():
-
     t_ui = turtle.Turtle()
     t_a1 = turtle.Turtle()
     t_a2 = turtle.Turtle()
@@ -178,6 +207,8 @@ def main():
 
     a1_range = 0.0
     a2_range = 0.0
+
+    turtle.bgcolor("#272727")  # Set background color
 
     draw_ui(t_ui)
 
